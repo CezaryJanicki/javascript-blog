@@ -68,8 +68,6 @@
     }
   };
 
-  const optArticleTagsSelector = '.post-tags .list';
-
   generateTitleLinks();
 
   const generateTags = function generateTags(){
