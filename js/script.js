@@ -68,6 +68,47 @@
     }
   };
 
+  const optArticleTagsSelector = '.post-tags .list';
+
   generateTitleLinks();
+
+  const generateTags = function generateTags(){
+    /* find all articles */
+    const articles = document.querySelectorAll(optArticleSelector);
+    console.log(optArticleSelector);
+    /* START LOOP: for every article: */
+    for (let article of articles) {
+      console.log(article);
+      /* find tags wrapper */
+      const titleList = article.querySelector('ul');
+      console.log(titleList);
+      /* make html variable with empty string */
+      let html = '';
+      /* get tags from data-tags attribute */
+      const articleTags = article.getAttribute('data-tags');
+      console.log(articleTags);
+      /* split tags into array */
+      const articleTagsArray = articleTags.split(' ');
+      console.log(articleTagsArray);
+      /* START LOOP: for each tag */
+      for(let tag of articleTagsArray){
+      /* generate HTML of the link */
+        console.log(tag);
+        const tagHTML = '<li><a href="#tag-' + tag + '">' + tag +'</a></li>';
+        console.log(tagHTML);
+        /* add generated code to html variable */
+        html = html + tagHTML;
+        console.log('---------------------------');
+        console.log(html);
+      /* END LOOP: for each tag */
+      }
+      /* insert HTML of all the links into the tags wrapper */
+      titleList.innerHTML = html;
+      /* END LOOP: for every article: */
+
+    }
+  };
+
+  generateTags();
 
 }
