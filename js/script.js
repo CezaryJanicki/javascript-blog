@@ -78,7 +78,6 @@
     const params = {'max' : 0, 'min' : 99999};
 
     for(let tag in tags){
-      console.log(tag + ' is used ' + tags[tag] + ' times');
       params.max = Math.max(tags[tag], params.max);
       params.min = Math.min(tags[tag], params.min);
     }
@@ -136,7 +135,6 @@
 
       /* [NEW] create variable for all links HTML code */
       const tagsParams = calculateTagsParams(allTags);
-      console.log('tagsParams:', tagsParams);
       let allTagsHTML = '';
 
       /* [NEW] START LOOP: for each tag in allTags: */
@@ -207,12 +205,36 @@
       html = html + authorHTML;
       authorWrapper.innerHTML = html;
     }
+    let allAuthors = {};
+    for (const article of articles) {
+      const author = article.getAttribute('data-author');
+      if(!allAuthors[author]){
+        /* [NEW] add generated code to allTags array */
+        allAuthors[author] = 1;
+        console.log(allAuthors[author]);
+      } else {
+        allAuthors[author]++;
+        console.log(allAuthors[author]);
+      }
+    }
+    const authorList = document.querySelector('.authors');
+    console.log(authorList);
+    const authParameters = calculateTagsParams(allAuthors);
+    console.log(authParameters);
+    let allAuthorsHTML = '';
+
+    for(let author in allAuthors){
+      /* [NEW] generate code of a link and add it to allTagsHTML */
+      allAuthorsHTML += '<li><a class="' + calculateTagClass(allAuthors[author], authParameters) + '" href="#author-' + author + '">' + author + '</a>&nbsp;&nbsp;<span id="number'+ allAuthors[author] + '">'+ allAuthors[author] + '</span></li>';
+    }
+    authorList.innerHTML = allAuthorsHTML;
+
   };
 
   generateAuthors();
 
   const authorClickHandler = function(event){
-    
+
     /* prevent default action for this event */
     event.preventDefault;
     /* make new constant named "clickedElement" and give it the value of "this" */
