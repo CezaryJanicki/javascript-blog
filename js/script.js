@@ -3,6 +3,9 @@
 
   const templates = {
     articleLink: Handlebars.compile(document.querySelector('#template-article-link').innerHTML),
+    tagLink: Handlebars.compile(document.querySelector('#template-tag-link').innerHTML),
+    authorLink: Handlebars.compile(document.querySelector('#template-author-link').innerHTML),
+    tagCloudLink: Handlebars.compile(document.querySelector('#template-tag-cloud-link').innerHTML),
   };
 
   const opts = {
@@ -120,13 +123,9 @@
 
   const calculateTagClass = function(count, params) {
     const normalizedCount = count - params.min;
-
     const normalizedMax = params.max - params.min;
-
     const percentage = normalizedCount / normalizedMax;
-
     const classNumber = Math.floor( percentage * (opts.tagSizes.count - 1) + 1 );
-
     return opts.tagSizes.classPrefix + classNumber;
   };
 
@@ -148,7 +147,8 @@
       /* START LOOP: for each tag */
       for(let tag of articleTagsArray){
       /* generate HTML of the link */
-        const linkHTML = '<li class=""><a href="#tag-' + tag + '">&nbsp;&nbsp;' + tag +'</a> </li>';
+        const linkHTMLData = {id: tag, title: tag};
+        const linkHTML = templates.tagLink(linkHTMLData);
         /* add generated code to html variable */
         html = html + linkHTML;
 
@@ -169,17 +169,21 @@
 
       /* [NEW] create variable for all links HTML code */
       const tagsParams = calculateTagsParams(allTags);
-      let allTagsHTML = '';
 
+      const allTagsData = {tags: []};
       /* [NEW] START LOOP: for each tag in allTags: */
       for(let tag in allTags){
         /* [NEW] generate code of a link and add it to allTagsHTML */
-        allTagsHTML += '<li><a class="' + calculateTagClass(allTags[tag], tagsParams) + '" href="#tag-' + tag + '">' + tag + '</a>&nbsp;&nbsp;<span id="number'+ allTags[tag] + '"></span></li>';
+        allTagsData.tags.push({
+          tag: tag,
+          count: allTags[tag],
+          className: calculateTagClass(allTags[tag], tagsParams)
+        });
       }
       /* [NEW] END LOOP: for each tag in allTags: */
 
       /*[NEW] add HTML from allTagsHTML to tagList */
-      tagList.innerHTML = allTagsHTML;
+      tagList.innerHTML = templates.tagCloudLink(allTagsData);
     }
   };
 
@@ -233,7 +237,8 @@
       const authorWrapper = article.querySelector(select.article.author);
       let html = '';
       const author = article.getAttribute('data-author');
-      const authorHTML = 'by <a href="#author-' + author +'">' + author + '</a>';
+      const linkHTMLData = {id: author, title: author};
+      const authorHTML = templates.authorLink(linkHTMLData);
       html = html + authorHTML;
       authorWrapper.innerHTML = html;
     }

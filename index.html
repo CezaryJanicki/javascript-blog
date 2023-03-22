@@ -235,19 +235,14 @@
         <li><a href="#{{ id }}"><span>{{ title }}</span></a></li>
       </script>
       <script id="template-tag-link" type="text/x-handlebars-template">
-        <li><a href="#tag-{{ id }}"><span>{{ tagName }}</span></a></li>
+        <li><a href="#tag-{{ id }}">{{ title }}</a></li>
       </script>
       <script id="template-author-link" type="text/x-handlebars-template">
-        <li><a href="#author-{{ id }}"><span>by {{ authorName }}</span></a></li>
+        <p>by <a href="#author-{{ id }}">{{ title }}</a></p>
       </script>
       <script id="template-tag-cloud-link" type="text/x-handlebars-template">
-        {{#each tag}}
-          <li><a class="{{ className }}" href="#tag-{{ tag }}">{{ tag }}</a></li>
-        {{/each}}
-      </script>
-      <script id="template-author-list-link" type="text/x-handlebars-template">
-        {{#each author}}
-          <li><a href="#author-{{ author }}">{{ author }}</a></li>
+        {{#each tags}}
+        <a class="{{ className }}" href="#tag-{{ tag }}"><li>{{ tag }}</li></a>
         {{/each}}
       </script>
 
