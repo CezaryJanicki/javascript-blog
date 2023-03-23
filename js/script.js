@@ -262,7 +262,7 @@
 
     for(let author in allAuthors){
       /* [NEW] generate code of a link and add it to allTagsHTML */
-      allAuthorsHTML += '<li><a class="" href="#author-' + author + '">' + author + '&nbsp;' +  allAuthors[author] +'</a>&nbsp;&nbsp;<span id="'+ allAuthors[author] + '"></span></li>';
+      allAuthorsHTML += '<li><a class="" href="#author-' + author + '">' + author + ' ' +  allAuthors[author] +'</a></li>';
     }
     authorList.innerHTML = allAuthorsHTML;
 
